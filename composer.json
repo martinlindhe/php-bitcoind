@@ -1,7 +1,7 @@
 {
-    "name": "martinlindhe/PhpBitcoind",
+    "name": "martinlindhe/php-bitcoind",
     "description": "Client class for the bitcoind JSON-RPC API",
-    "homepage": "https://github.com/martinlindhe/PhpBitcoind",
+    "homepage": "https://github.com/martinlindhe/php-bitcoind",
     "license": "BSD",
     "require": {
         "php": ">=5.3.0"
@@ -12,7 +12,8 @@
     "autoload": {
         "files": [
             "class/Exceptions.php",
-            "class/Bitcoind/JsonRpcClient.php"
+            "class/Bitcoind/JsonRpcClient.php",
+            "class/Bitcoind/JsonRpcResponse.php"
         ]
     }
 }
