@@ -15,7 +15,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function test1(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetInfo(\Bitcoind\JsonRpcClient $bitcoind)
     {
         // uses __call()
         $res = $bitcoind->getInfo();
@@ -175,6 +175,16 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @depends testGetInstance
+     */
+    function testGetters(\Bitcoind\JsonRpcClient $bitcoind)
+    {
+        $bitcoind->getUsername();
+        $bitcoind->getPassword();
+        $bitcoind->getHost();
+        $bitcoind->getPort();
+    }
 
     /**
      * @expectedException \ConnectionRefusedException
@@ -209,5 +219,4 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
         $bitcoind->setPassword('bad');
         $res = $bitcoind->getInfo();
     }
-
 }
