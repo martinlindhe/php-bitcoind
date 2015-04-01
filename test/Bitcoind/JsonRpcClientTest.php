@@ -1,10 +1,12 @@
 <?php
 
+use Bitcoind\JsonRpcClient;
+
 class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
 {
     static function testGetInstance()
     {
-        $bitcoind = new \Bitcoind\JsonRpcClient();
+        $bitcoind = new JsonRpcClient();
 
         $settingsTestFile = __DIR__.'/../settings/settings.php';
         require $settingsTestFile;
@@ -15,7 +17,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetInfo(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetInfo(JsonRpcClient $bitcoind)
     {
         // uses __call()
         $res = $bitcoind->getInfo();
@@ -32,7 +34,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetBlock(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetBlock(JsonRpcClient $bitcoind)
     {
         // get block #1:
         $res = $bitcoind->getBlock('00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048');
@@ -52,7 +54,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetRawTransaction(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetRawTransaction(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->getRawTransaction('0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098', 1);
 
@@ -69,7 +71,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetConnectionCount(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetConnectionCount(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->getConnectionCount();
 
@@ -84,7 +86,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetGenerate(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetGenerate(JsonRpcClient $bitcoind)
     {
         // NOTE: this test checks if bitcoind is configured to generate bitcoins
         $res = $bitcoind->getGenerate();
@@ -100,7 +102,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetPeerInfo(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetPeerInfo(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->getPeerInfo();
 
@@ -115,7 +117,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetReceivedByAddress(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetReceivedByAddress(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->getReceivedByAddress('12c6DSiU4Rq3P4ZxziKxzrL5LmMBrzjrJX');
 
@@ -133,7 +135,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetAccount(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetAccount(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->getAccount('12c6DSiU4Rq3P4ZxziKxzrL5LmMBrzjrJX');
 
@@ -151,7 +153,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testValidateAddress(\Bitcoind\JsonRpcClient $bitcoind)
+    function testValidateAddress(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->validateAddress('12c6DSiU4Rq3P4ZxziKxzrL5LmMBrzjrJX');
 
@@ -167,7 +169,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testIsValidAddress(\Bitcoind\JsonRpcClient $bitcoind)
+    function testIsValidAddress(JsonRpcClient $bitcoind)
     {
         $this->assertEquals(
             true,
@@ -178,7 +180,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testGetInstance
      */
-    function testGetters(\Bitcoind\JsonRpcClient $bitcoind)
+    function testGetters(JsonRpcClient $bitcoind)
     {
         $bitcoind->getUsername();
         $bitcoind->getPassword();
@@ -192,7 +194,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
     function testInvalidConnect()
     {
         // verify that the correct exception is thrown on connection failure
-        $bitcoind = new \Bitcoind\JsonRpcClient();
+        $bitcoind = new JsonRpcClient();
         $bitcoind->setPort(12345);
 
         $bitcoind->getInfo();
@@ -202,7 +204,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
      * @depends testGetInstance
      * @expectedException \MethodNotFoundException
      */
-    function testInvalidMethod(\Bitcoind\JsonRpcClient $bitcoind)
+    function testInvalidMethod(JsonRpcClient $bitcoind)
     {
         $res = $bitcoind->nonExistingMethod();
         var_dump($res);
@@ -212,7 +214,7 @@ class BitcoindJsonRpcClientTest extends \PHPUnit_Framework_TestCase
      * @depends testGetInstance
      * @expectedException \AuthenticationFailureException
      */
-    function testAuthFailure(\Bitcoind\JsonRpcClient $bitcoind)
+    function testAuthFailure(JsonRpcClient $bitcoind)
     {
         // NOTE because this test changes the password, it needs to run last
         $oldPwd = $bitcoind->getPassword();

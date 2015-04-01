@@ -1,14 +1,13 @@
 <phpunit
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+	xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
-	strict="false"
 	verbose="false"
 	stderr="true"
-	bootstrap="bootstrap.php"
+	bootstrap="vendor/autoload.php"
 >
 
 	<testsuites>
@@ -23,9 +22,5 @@
 			<directory>vendor</directory>
 		</blacklist>
 	</filter>
-
-	<logging>
-		<log type="coverage-html" target="coverage-report-html"/>
-	</logging>
 
 </phpunit>

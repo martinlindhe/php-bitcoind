@@ -1,5 +1,4 @@
-<?php
-namespace Bitcoind;
+<?php namespace Bitcoind;
 
 class JsonRpcResponse
 {

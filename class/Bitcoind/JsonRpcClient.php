@@ -1,5 +1,4 @@
-<?php
-namespace Bitcoind;
+<?php namespace Bitcoind;
 
 /**
  * Client for the bitcoind JSON-RPC API
@@ -54,7 +53,13 @@ class JsonRpcClient
     }
 
     /**
-     * @param $data encoded POST data
+     * @param string $data encoded POST data
+     * @return JsonRpcResponse
+     * @throws \AuthenticationFailureException
+     * @throws \ConnectionErrorException
+     * @throws \ConnectionRefusedException
+     * @throws \MethodNotFoundException
+     * @throws \NotOkayException
      */
     private function postRequest($data)
     {
@@ -65,7 +70,7 @@ class JsonRpcClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
         $output = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -98,20 +103,20 @@ class JsonRpcClient
         return $res;
     }
 
-    public function __call($methodName, $params = array())
+    public function __call($methodName, $params = [])
     {
         return $this->request(strtolower($methodName), $params);
     }
 
-    public function request($methodName, $params = array())
+    public function request($methodName, $params = [])
     {
         $this->requestCounter++;
 
-        $params = array(
+        $params = [
             "method" => $methodName,
             "params" => $params,
             "id" => $this->requestCounter,
-        );
+        ];
 
         return $this->postRequest(json_encode($params));
     }
